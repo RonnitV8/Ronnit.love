@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>A question for you 💌</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+
+    body {
+      width: 100%;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg, #ffe5e5 0%, #ffd6f0 100%);
+    }
+
+    .screen { display: none; }
+    .screen.active {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 22px;
+      max-width: 480px;
+      width: 100%;
+      margin: 24px;
+      animation: fadeIn 0.4s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .gif-wrap {
+      width: 200px;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+    }
+
+    h1 { font-size: 1.5rem; font-weight: 700; color: #2d1b1b; line-height: 1.35; }
+    p  { font-size: 1rem; color: #7a4040; }
+
+    .btn { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; }
+
+    .btn button {
+      cursor: pointer;
+      border: none;
+      color: #111;
+      background: #fff;
+      padding: 12px 32px;
+      border-radius: 10px;
+      font-size: 1rem;
+      font-weight: 600;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .btn button:hover { transform: translateY(-2px); box-shadow: 0 10px 28px rgba(0,0,0,0.2); }
+    .btn button.yes-btn { background: #ff6b8a; color: #fff; }
+
+    #no-float {
+      position: fixed;
+      cursor: pointer;
+      border: none;
+      background: #fff;
+      color: #111;
+      padding: 12px 32px;
+      border-radius: 10px;
+      font-size: 1rem;
+      font-weight: 600;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Screen 0: Main -->
+  <div class="screen active" id="s0">
+    <div class="gif-wrap">
+      <iframe src="https://tenor.com/embed/22885016" width="200" height="200" frameborder="0" allowfullscreen style="border-radius:16px;"></iframe>
+    </div>
+    <h1>Do you love me? 🤗</h1>
+    <p>~Ronnit is all yours</p>
+    <div class="btn">
+      <button class="yes-btn" onclick="show('yes')">Yes 💖</button>
+      <button onclick="show('no1')">No</button>
+    </div>
+  </div>
+
+  <!-- Screen no1 -->
+  <div class="screen" id="sno1">
+    <div class="gif-wrap">
+      <iframe src="https://tenor.com/embed/22050818" width="200" height="200" frameborder="0" allowfullscreen style="border-radius:16px;"></iframe>
+    </div>
+    <h1>Please think again! 🙄</h1>
+    <p>itni jaldi nahi matt bolo 😥</p>
+    <div class="btn">
+      <button class="yes-btn" onclick="show('yes')">Yes 💖</button>
+      <button onclick="show('no2')">No</button>
+    </div>
+  </div>
+
+  <!-- Screen no2 -->
+  <div class="screen" id="sno2">
+    <div class="gif-wrap">
+      <iframe src="https://tenor.com/embed/15195810" width="200" height="200" frameborder="0" allowfullscreen style="border-radius:16px;"></iframe>
+    </div>
+    <h1>Ek aur baar Soch lo! 😣</h1>
+    <p>kyu aisa kar rahi ho 😣</p>
+    <div class="btn">
+      <button class="yes-btn" onclick="show('yes')">Yes 💖</button>
+      <button onclick="show('no3')">No</button>
+    </div>
+  </div>
+
+  <!-- Screen no3 (No button runs away) -->
+  <div class="screen" id="sno3">
+    <div class="gif-wrap">
+      <iframe src="https://tenor.com/embed/15974530976611222074" width="200" height="200" frameborder="0" allowfullscreen style="border-radius:16px;"></iframe>
+    </div>
+    <h1>Baby Man jao na! Kitna bhav khaogi 😭</h1>
+    <p>bhut glt baat hai yaar 😭</p>
+    <div class="btn">
+      <button class="yes-btn" onclick="show('yes')">Yes 💖</button>
+    </div>
+  </div>
+
+  <!-- Screen yes -->
+  <div class="screen" id="syes">
+    <div class="gif-wrap" style="width:240px;">
+      <iframe src="https://tenor.com/embed/253027946666209433" width="240" height="200" frameborder="0" allowfullscreen style="border-radius:16px;"></iframe>
+    </div>
+    <h1>Hehehehe, I knew it! Love you a lot 😘</h1>
+    <p>~Ronnit 💌</p>
+  </div>
+
+  <!-- Floating No button (only on no3) -->
+  <button id="no-float" style="display:none;" onmouseover="runAway()" ontouchstart="runAway()">No 🏃</button>
+
+  <script>
+    function show(page) {
+      document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+      document.getElementById('no-float').style.display = 'none';
+
+      if (page === 'no3') {
+        document.getElementById('sno3').classList.add('active');
+        setTimeout(spawnNoBtn, 300);
+      } else {
+        document.getElementById('s' + page).classList.add('active');
+      }
+    }
+
+    function spawnNoBtn() {
+      const btn = document.getElementById('no-float');
+      btn.style.display = 'block';
+      placeRandom(btn);
+    }
+
+    function placeRandom(btn) {
+      const pad = 60;
+      const x = pad + Math.random() * (window.innerWidth  - pad * 2 - 120);
+      const y = pad + Math.random() * (window.innerHeight - pad * 2 - 50);
+      btn.style.left = x + 'px';
+      btn.style.top  = y + 'px';
+    }
+
+    function runAway() {
+      placeRandom(document.getElementById('no-float'));
+    }
+  </script>
+</body>
+</html>
